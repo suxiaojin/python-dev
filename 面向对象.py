@@ -93,7 +93,7 @@ class OneEvent:
         return self.__when
     @when.setter
     def when(self,when):
-        self.__whenn=when
+        self.__when=when
 
     @property
     def where(self):
@@ -117,10 +117,78 @@ if __name__ == '__main__':
         ts=time.strftime('%Y-%m-%d %H:%M:%S',cur_time)
         what="工作"
         where="单位"
-        event=OneEvent(ts,what,where)
+        event=OneEvent(ts,where,what)
         print(event)
         print(event.when,event.what,event.where)
         event.when='2020-10-17'
         event.where='公园'
         event.what='休息'
         print(event.when,event.where,event.what)
+
+class EventNote:
+    def __init__(self,*args,**kwargs):
+        self.events={}
+        self.event_id=1
+
+    def add_event(self):
+        when=input('输入时间:')
+        where=input('输入地点:')
+        what=input('输入事件:')
+        event=OneEvent(when,where,what)
+        self.events[self.event_id]=event
+        self.event_id+=1
+
+    def del_event(self):
+        try:
+            eid=int(input('输入删除ID'))
+            event=self.events.pop(eid)
+            print('del event:',event)
+        except Exception as e:
+            print('Error id:',e)
+
+    def find_event(self):
+        try:
+            eid=int(input('输入查找ID:'))
+            event=self.events.get(eid)
+            if not event:
+                print('no event id')
+            else:
+                print('find Event:',event)
+            return event
+        except Exception as e:
+            print('Error id:',e)
+
+    def modify_event(self):
+        pass
+
+
+    def dump_events(self):
+        if self.events:
+            for eid,event in self.events.items():
+                print(eid,event)
+            print()
+        else:
+            print('no events')
+
+    def menu(self):
+        m={'A':'添加事件','F':'查找事件','D':'删除事件','M':'修改事件','Q':'退出','S':'显示所有事件'}
+        print('....................')
+        for k, v in m.items():
+            print(f'{k}:{v}')
+
+    def run(self):
+        func_map={'A':'add_event','F':'find_event','D':'del_event','M':'modify_event','S':'dump_events'}
+        while True:
+            self.menu()
+            cmdline=input('输入：A/F/D/M/Q/S:')
+            cmds=cmdline.split()
+            cmd=cmds[0]
+            if cmd=='Q':
+                print('Exit')
+                break
+            if cmd in func_map:
+                func=getattr(self,func_map[cmd])
+                func()
+enote=EventNote()
+enote.run()
+

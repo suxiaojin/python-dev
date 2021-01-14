@@ -24,7 +24,7 @@
 #
 # #字典相关方法
 # fromkeys ----根据序列创建字典，默认值none
-# dict.get(key,default=None)
+# dict.get(key,default=None)   返回指定健的值
 # setdefault ----如果key存在你，返回key对应的值，否则添加元素 {key:default}
 #     d={1:2,3:4}
 #     print(d.setdefault(1,'one'))
@@ -34,7 +34,7 @@
 #     d.setdefault('one',1)
 #     print(d)
 # #字典删除方法
-pop,返回并删除key对应的元素
+pop,删除字典给定key及对应的值，返回值为被删除的值
 popitem，返回并删除最后一组元素
 
 d=dict.fromkeys('1234',-1)

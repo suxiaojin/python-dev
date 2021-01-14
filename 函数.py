@@ -16,6 +16,15 @@
 
 作用域：
 
+内置函数：
+    getattr(object,name) ---返回对象属性值
+    >>>class A(object):
+...     bar = 1
+...
+>>> a = A()
+>>> getattr(a, 'bar')        # 获取属性 bar 值
+1
+
 '''
 #可变长非关键字参数（*args）
 def my_sum(x,y,*args):
