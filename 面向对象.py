@@ -77,7 +77,50 @@ getattr  :返回对象属性值
 # obj=EditStr()
 # obj.run()
 
-func_map={'D':'do_delete','I':'do_insert','R':'do_replace'}
-cmd='D'
-if cmd in func_map:
-    getattr(self,cmd)
+# func_map={'D':'do_delete','I':'do_insert','R':'do_replace'}
+# cmd='D'
+# if cmd in func_map:
+#     getattr(self,cmd)
+import time
+
+class OneEvent:
+    def __init__(self,when,where,what):
+        self.__when=when
+        self.__what=what
+        self.__where=where
+    @property
+    def when(self):
+        return self.__when
+    @when.setter
+    def when(self,when):
+        self.__whenn=when
+
+    @property
+    def where(self):
+        return self.__where
+    @where.setter
+    def where(self,where):
+        self.__where=where
+
+    @property
+    def what(self):
+        return self.__what
+    @what.setter
+    def what(self, what):
+        self.__what = what
+
+    def __str__(self):
+        return f'时间:{self.when},地点:{self.where},事件:{self.what}'
+
+if __name__ == '__main__':
+        cur_time=time.localtime()
+        ts=time.strftime('%Y-%m-%d %H:%M:%S',cur_time)
+        what="工作"
+        where="单位"
+        event=OneEvent(ts,what,where)
+        print(event)
+        print(event.when,event.what,event.where)
+        event.when='2020-10-17'
+        event.where='公园'
+        event.what='休息'
+        print(event.when,event.where,event.what)
