@@ -1,4 +1,12 @@
 """
+面向对象实现的基本思路：
+    1.确认类名，属性，方法
+    2.将类属性，方法及参数定义出来
+    3.具体方法实现与调试
+
+
+
+
 类： 具有相同属性与行为的对象的集合体、是一个抽象概念
 对象：类的一个实例，具体的存在对象
 例子：
@@ -14,9 +22,41 @@
 super函数用于子类调用父类方法
     super(子类,self).func()
 对象初始化: __init__方法
-私有属性： 以2个下划线开头 __age，这种属性只能通过实例方法进行访问。
 
-    @property,将方法变为属性去访问
+
+私有属性： 以2个下划线开头 __age，这种属性只能通过实例方法进行访问。
+class persion:
+    def __init__(self,name,age):
+        self.name=name
+        self.__age=age
+    def get_age(self):
+        return self.__age
+p=Persion('li',21)
+print(p.get_age())
+
+@property,将方法变为属性去访问
+class persion:
+    def __init__(self,name,age):
+        self.name=name
+        self.__age=age
+    将方法变成属性，访问
+    @property
+    def age(self):
+        return self.__age
+
+    @age.setter
+    def age(self,age)
+        self.__age=age
+p=Persion('li',21)
+print(p.age)
+p.age=22
+print(p.age)
+分析：
+    @preperty将age方法变成属性，可以通过p.age进行访问，但是不能设置
+    @age.setter将age可以进行赋值操作
+
+
+
 
 self与对象有关，与类无关
 self代表的实例，对象、而不是类
@@ -112,23 +152,52 @@ class OneEvent:
     def __str__(self):
         return f'时间:{self.when},地点:{self.where},事件:{self.what}'
 
-if __name__ == '__main__':
-        cur_time=time.localtime()
-        ts=time.strftime('%Y-%m-%d %H:%M:%S',cur_time)
-        what="工作"
-        where="单位"
-        event=OneEvent(ts,where,what)
-        print(event)
-        print(event.when,event.what,event.where)
-        event.when='2020-10-17'
-        event.where='公园'
-        event.what='休息'
-        print(event.when,event.where,event.what)
+# if __name__ == '__main__':
+#         cur_time=time.localtime()
+#         ts=time.strftime('%Y-%m-%d %H:%M:%S',cur_time)
+#         what="工作"
+#         where="单位"
+#         event=OneEvent(ts,where,what)
+#         print(event)
+#         print(event.when,event.what,event.where)
+#         event.when='2020-10-17'
+#         event.where='公园'
+#         event.what='休息'
+#         print(event.when,event.where,event.what)
+#事件保存
+import pickle
+class EventStorage:
+    def save_events(self,fpath,data):
+        if fpath:
+            try:
+                with open(fpath,'wb') as f:
+                    pickle.dump(data,f)
+            except Exception as e:
+                print('save event error:',e)
+
+    def load_events(self,fpath=''):
+        try:
+            if fpath:
+                with open(fpath,'rb') as f:
+                    return pickle.load(f)
+        except Exception as e:
+            print('load error')
+        return {}
+
+# if __name__ == '__main__':
+#     es=EventStorage()
+#     data={1:'app'}
+#     fpath='data.pk'
+#     es.save_events(fpath,data)
+#     print(es.load_events(fpath))
+
 
 class EventNote:
     def __init__(self,*args,**kwargs):
-        self.events={}
         self.event_id=1
+        self.fpath=kwargs.get('fpath')
+        self.es=EventStorage()
+        self.load_events()
 
     def add_event(self):
         when=input('输入时间:')
@@ -176,10 +245,17 @@ class EventNote:
         for k, v in m.items():
             print(f'{k}:{v}')
 
+    def load_events(self):
+        self.events=self.es.load_events(self.fpath)
+
+    def save_events(self):
+        if self.fpath:
+            self.es.save_events(self.fpath,self.events)
+
     def run(self):
         func_map={'A':'add_event','F':'find_event','D':'del_event','M':'modify_event','S':'dump_events'}
+        self.menu()
         while True:
-            self.menu()
             cmdline=input('输入：A/F/D/M/Q/S:')
             cmds=cmdline.split()
             cmd=cmds[0]
@@ -189,6 +265,7 @@ class EventNote:
             if cmd in func_map:
                 func=getattr(self,func_map[cmd])
                 func()
-enote=EventNote()
+        self.save_events()
+enote=EventNote(fpath='data.txt')
 enote.run()
 

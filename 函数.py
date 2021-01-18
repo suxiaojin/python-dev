@@ -25,6 +25,22 @@
 >>> getattr(a, 'bar')        # 获取属性 bar 值
 1
 
+
+enumerate()函数
+    enumerate()函数用于将一个可遍历的数据对象（列表、元祖、字符串）组合为一个索引序列，同时列出数据和数据下标
+
+
+for 循环使用 enumerate
+>>>seq = ['one', 'two', 'three']
+>>> for i, element in enumerate(seq):
+...     print i, element
+...
+0 one
+1 two
+2 three
+
+
+
 '''
 #可变长非关键字参数（*args）
 def my_sum(x,y,*args):
