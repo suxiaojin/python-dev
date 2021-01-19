@@ -7,6 +7,28 @@ pexpect.spawn() ---参数
     logfile ---指定log 文件
 '''
 
+
+
+'''
+configparser   --读写配置文件
+    配置文件中[] 内包含的为section。section下面为类似k-v的配置内容
+    [db]
+    cpu=80
+    memory=90
+    
+    config=configparser.configparser()
+    config.read(ini)
+     config.section()  ----db
+     config.options('db') -- cpu  memory
+     config.get('db','cpu')  --80
+     
+     获取指定section的所有配置信息
+     r=config.items('db')
+     print(r)
+     [{'cpu':'80'},{'memory':'90'}]
+
+
+'''
 #查看指定目录下的所有文件
 args=['ls','-l','/home/data']
 c=pexpect.spawd(''.join(args),logfile=sys.stdout)
