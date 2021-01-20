@@ -3,18 +3,30 @@
 find查找字符串位置
 #2. 切分
 split
-#3. 拼接------join
-words=['c++','python','java']
-s='/'
+    返回切分后子串组成列表
+    k='python,c++,java'
+    k=k.split(',')
+    print(k)
+
+
+#3. 拼接------join ----将字符串列表转换为字符串
+words=['1','2','3']
+s=''
 print(s.join(words))
 
+
+#将列表转换为字符串 ---join
 nums=[1,2,3]
 tmp=str(nums)
 print(tmp)
 tmp=tmp[1:-1]
+print(tmp)
 tmp=tmp.split(',')
+print(tmp)
 s=''
 print(s.join(tmp))
+
+
 
 #4 访问字符串  [0:4]返回是 0-3的值  左闭右开原则
 abcdefg

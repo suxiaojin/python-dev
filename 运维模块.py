@@ -76,6 +76,8 @@ cpu:
     for pid in psutil.pids():
         p=psutil.Process(pid) ---获取进程信息
         p.name --进程名
+        p.status ---当前状态
+        p.cpu_time() --进程cpu主要信息
         
 网络信息：
     psutil.net_if_addrs ---- 获取网卡信息
