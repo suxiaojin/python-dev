@@ -116,7 +116,9 @@ from apscheduler.schedulers.blocking import BlockingScheduler
         #定时任务：每天
         scheduler.add_job(time_task,'cron',hour=9,minute=19)
         scheduler.start()
-        
+触发器 interval ---每隔多长时间触发
+        data ----特定时间触发--只运行一次
+        cron-----固定时间触发 
         
 '''
 import time
