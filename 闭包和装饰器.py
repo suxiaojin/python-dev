@@ -25,11 +25,47 @@ print(f(2))
 print(f(3))
 print(f(5))
 
+
+def genLogFunc(level):
+    #level为日志等级
+    def logfunc(msg):
+        print('{}！msg:{}'.format(level,msg))
+    return logfunc
+
+logerr=genLogFunc('error')
+logerr('test')
+logwar=genLogFunc('waring')
+logwar('kkk')
+
+
 '''
 装饰器: 在不修改某个函数情况下，为函数增加新功能
         装饰器返回值为新的函数
         装饰器原理与闭包类似
+        decorate 1
+        func     3  ----之后被调用的函数,所以需要多少参数，在 wrapper中就传入多少
+        wrapper  2 -----  2中调用3，返回2
+        f1=decorate(f1)
 '''
+#装饰器带参数
+def decolog(level):
+    print('call decolog')
+    def deco(func):
+        print('call deco')
+        def logfunc(msg):
+            print('%s:'%level,end='')     #相当于在f1上增加了一个打印的功能
+            func(msg)
+        return logfunc
+    return deco
+
+@decolog('error')
+def f1(msg):
+    print('%s'%(msg))
+f1('this is error')
+
+
+
+
 import time
 def decorator(func):
     def wrapper(*args,**kwargs):
