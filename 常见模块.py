@@ -29,6 +29,17 @@ configparser   --读写配置文件
 
 
 '''
+
+'''
+subprocess启动一个新进程，并连接到它们的输入/输出错误管道，获取返回值
+subprocess(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,encoding='utf-8')
+
+
+
+'''
+import subprocess
+p=subprocess.Popen('dir',shell=True)
+
 #查看指定目录下的所有文件
 args=['ls','-l','/home/data']
 c=pexpect.spawd(''.join(args),logfile=sys.stdout)
