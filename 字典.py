@@ -1,9 +1,9 @@
 # # 1. 字典不同于序列，使用索引访问元素。字典中使用key,访问元素  d[key]
 字典可变
-# # d={1:'one',2:'two'}
-# # print(d)
-# # print('d[1]:',d[1])
-#
+d={1:'one',2:'two'}
+print(d)
+print('d[1]:',d[1])
+
 #2. 字典遍历
 #获取key
 d={'name':'sun','age':22,'sex':'man'}
@@ -73,6 +73,16 @@ def count_chr(s):
     return d
 r=count_chr(s)
 print(r)
+
+#统计字符次数
+from collections import Counter
+s='xiaomi huawei apple vivo'
+c=Counter(s)
+print(c)
+
+{i:3,'a':6}
+
+
 
 
 #记录用户名、密码

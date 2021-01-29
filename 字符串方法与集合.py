@@ -38,6 +38,7 @@ str[0:4]  =  abcd
 # 5. 替换 ----replace
 s='90,None,80,None'
 print(s.replace('None','0'))
+
 #None替换为0，只替换1个
 print(s.replace('None','0',1))
 
@@ -63,6 +64,13 @@ hello ruboob
 
 >>>f'{1+2}'        使用表达式
 3
+
+#8 字符串翻转
+str='runoob'
+print(str[::-1])  ----  boonur
+
+
+print(''.join(reversed(str)))
 
 
 #9.format方法  字符串的format方法可以使用{}用来代替%,且参数位置与个数不受限制

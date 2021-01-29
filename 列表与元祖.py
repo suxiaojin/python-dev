@@ -5,10 +5,10 @@
 # sum() 求和
 list方法用于将元祖或字符串转换为列表
 
-# l=[1,2,10,4]
-# print('len(l)',len(l))
-# print('max(l)',max(l))
-# print('sum(l)',sum(l))
+l=[1,2,10,4]
+print('len(l)',len(l))
+print('max(l)',max(l))
+print('sum(l)',sum(l))
 #
 # #列表主要操作：增删改查
 # L.append   --在列表尾部添加
@@ -17,7 +17,7 @@ list方法用于将元祖或字符串转换为列表
 #
 # #列表统计与查找
 # L.count(i)   统计i出现的次数
-# L.index
+# L.index(val,1,4)
 #
 # #列表删除
 # L.pop(index=-1,/) --删除病返回index对应的value,默认值为01
