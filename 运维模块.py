@@ -149,7 +149,43 @@ process_network_speed(5)
 paramiko包含2个核心组件 
     SSHClient
         常用方法:
-            connect():实现远程服务器的连接与认证，对于该方法
+            connect():实现远程服务器的连接与认证，对于该方法只有hostname是必传参数。
+                常用参数
+                    hostname 连接的目标主机
+                    port=SSH_PORT 指定端口
+                    username=None 验证的用户名
+                    password=None 验证的用户密码
+                    pkey=None 私钥方式用于身份验证
+                    key_filename=None 一个文件名或文件列表，指定私钥文件
+                    timeout=None 可选的tcp连接超时时间
+                    allow_agent=True, 是否允许连接到ssh代理，默认为True 允许
+                    look_for_keys=True 是否在~/.ssh中搜索私钥文件，默认为True 允许
+                    compress=False, 是否打开压缩
+            set_missing_host_key_policy()：设置远程服务器没有在know_hosts文件中记录时的应对策略。目前支持三种策略：
+                AutoAddPolicy 自动添加主机名及主机密钥到本地HostKeys对象，不依赖load_system_host_key的配置。即新建立ssh连接时不需要再输入yes或no进行确认
+            exec_command()：在远程服务器执行Linux命令的方法。
+ 举例：  
+ import paramiko
+ 
+   # 实例化SSHClient
+   client = paramiko.SSHClient()
+ 
+   # 自动添加策略，保存服务器的主机名和密钥信息，如果不添加，那么不再本地know_hosts文件中记录的主机将无法连接
+   client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ 
+   # 连接SSH服务端，以用户名和密码进行认证
+   client.connect(hostname='192.168.1.105', port=22, username='root', password='123456')
+ 
+   # 打开一个Channel并执行命令
+   stdin, stdout, stderr = client.exec_command('df -h ')  # stdout 为正确输出，stderr为错误输出，同时是有1个变量有值
+ 
+   # 打印执行结果
+   print(stdout.read().decode('utf-8'))
+   
+   # 关闭SSHClient
+   client.close()
+
+
     SFTPClient
 
 '''
