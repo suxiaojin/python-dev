@@ -143,3 +143,13 @@ def process_network_speed(n):
 
 #每隔5秒执行
 process_network_speed(5)
+
+
+'''
+paramiko包含2个核心组件 
+    SSHClient
+        常用方法:
+            connect():实现远程服务器的连接与认证，对于该方法
+    SFTPClient
+
+'''

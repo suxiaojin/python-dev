@@ -77,6 +77,8 @@ def sort_wds(s):
 r=sort_wds(s)
 print(r)
 
+
+#删除重复的元素
 def del_vals(lums):
     for val in lums:
         count=lums.count(val)
@@ -86,3 +88,16 @@ lums=[1,2,1,2,2,2]
 print(lums)
 del_vals(lums)
 
+#删除重复的元素
+
+def del_vasl(lnums):
+    for index,val in enumerate(lnums):
+        count=lnums.count(val)
+        while count >1:
+            #找到后面重复的元素
+            del_index=lnums.index(val,index+1)
+            lnums.pop(del_index)
+            count-=1
+lums=[1,2,1,2,2,2]
+del_vasl(lums)
+print(lums)
