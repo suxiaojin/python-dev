@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5901963f-89a5-4899-9892-9ec8a851ce8c" name="jumpserver">
+        <fileTransfer accessType="SFTP" host="192.168.110.10" port="22" sshConfigId="24bf1703-119b-483f-90b1-c6c526966c60" sshConfig="root@192.168.110.10:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
