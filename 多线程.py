@@ -18,3 +18,18 @@ t.start()
 time.sleep(1)
 print('start job')
 print('end job')
+
+import threading
+from threading import Thread
+import time
+
+g_num=10
+def tfunc():
+    global g_num
+    thread_info=threading.current_thread()
+    g_num+=1
+    print('call thread func:', threading.get_ident(),thread_info.getName(),g_num)
+t=Thread(target=tfunc,name='thread1')
+t.start()
+tfunc()
+t.join()
