@@ -35,3 +35,59 @@ def main():
 
 if __name__=='__main__':
     main()
+
+'''
+v2:实现文件夹与文件的拷贝
+'''
+import os,filecmp,shutil,sys
+
+def usage():
+    print('sourcedir and dstdir must be existing absolute path of certaiin directory')
+    sys.exit(0)
+
+
+def autoBackup(scrDir,dstDir):
+    if ((not os.path.isdir(scrDir)) or (not os.path.isdir(dstDir)) or (os.path.abspath(scrDir) != scrDir) or (os.path.abspath(dstDir) != dstDir)):
+        usage()
+
+    for item in os.listdir(scrDir):
+        scrItem=os.path.join(scrDir,item)
+        dstItem=scrItem.replace(scrDir,dstDir)
+
+        if os.path.isdir(scrItem):
+            if not os.path.exists(dstItem):
+                os.makedirs(dstItem)
+                print('make directory' + dstItem)
+            autoBackup(scrItem,dstItem)
+
+        elif os.path.isfile(scrItem):
+            if ((not os.path.exists(dstItem)) or (not filecmp.cmp(scrItem,dstItem,shallow=True))):
+                shutil.copyfile(scrItem,dstItem)
+                print('file:' + scrItem + '==>' + dstItem)
+
+def visitDir(path):
+    global totalSize
+    global fileNum
+    global dirNum
+
+    for lists in os.listdir(path):
+        sub_path=os.path.join(path,lists)
+        https: // blog.csdn.net / Drek_Hu / article / details / 109137247
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Spath=input('输入源文件夹路径：')
+Dpath=input('输入目标文件夹路径')
+autoBackup(Spath,Dpath)
+

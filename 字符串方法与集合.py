@@ -94,3 +94,6 @@ s.pop()
 len(s)
 s.remove()
 s.clear()清空集合
+
+/tmp  /data
+/tmp/kk   /data/kk
