@@ -9,6 +9,7 @@
     os.chdir ---切换到指定路径
     os.rename ---修改文件名称
     os.makedirs ---递归创建文件夹     mkdir -p
+    os.path.getsize
 
 文件操作：
 

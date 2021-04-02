@@ -41,6 +41,10 @@ v2:实现文件夹与文件的拷贝
 '''
 import os,filecmp,shutil,sys
 
+totalSize=0
+fileNum=0
+dirNum=0
+
 def usage():
     print('sourcedir and dstdir must be existing absolute path of certaiin directory')
     sys.exit(0)
@@ -57,7 +61,7 @@ def autoBackup(scrDir,dstDir):
         if os.path.isdir(scrItem):
             if not os.path.exists(dstItem):
                 os.makedirs(dstItem)
-                print('make directory' + dstItem)
+                print('make directory ' + dstItem)
             autoBackup(scrItem,dstItem)
 
         elif os.path.isfile(scrItem):
@@ -72,22 +76,34 @@ def visitDir(path):
 
     for lists in os.listdir(path):
         sub_path=os.path.join(path,lists)
-        https: // blog.csdn.net / Drek_Hu / article / details / 109137247
+        if os.path.isfile(sub_path):
+            fileNum=fileNum+1
+            totalSize=totalSize + os.path.getsize(sub_path)
+        elif os.path.isdir(sub_path):
+            dirNum=dirNum+1
+            visitDir(sub_path)
 
 
+def sizeConvert(size):
+    K, M, G = 1024, 1024**2, 1024**3
+    if size >= G:
+        x = str(size/G) + 'GB'
+    elif size >= M:
+        x = str(size/M) + 'MB'
+    elif size >= K:
+        x = str(size/K) + 'KB'
+    else:
+        x = str(size) + 'B'
+    return x
 
-
-
-
-
-
-
-
-
-
-
+def output(path):
+    visitDir(Dpath)
+    print('The total size of ' + path + 'is: ' + sizeConvert(totalSize) + "(" + str(totalSize) +"B)")
+    print('The Total number of files in' + path + "is: " , fileNum)
+    print('The Total number of directories in' + path + "is: " , dirNum)
 
 Spath=input('输入源文件夹路径：')
-Dpath=input('输入目标文件夹路径')
+Dpath=input('输入目标文件夹路径: ')
 autoBackup(Spath,Dpath)
+output(Dpath)
 
