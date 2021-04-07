@@ -40,17 +40,18 @@ if __name__=='__main__':
 v2:实现文件夹与文件的拷贝
 '''
 import os,filecmp,shutil,sys
+import multiprocessing
 
-totalSize=0
-fileNum=0
-dirNum=0
+# totalSize=0
+# fileNum=0
+# dirNum=0
 
 def usage():
     print('sourcedir and dstdir must be existing absolute path of certaiin directory')
     sys.exit(0)
 
 
-def autoBackup(scrDir,dstDir):
+def autoBackup(q,scrDir,dstDir):
     if ((not os.path.isdir(scrDir)) or (not os.path.isdir(dstDir)) or (os.path.abspath(scrDir) != scrDir) or (os.path.abspath(dstDir) != dstDir)):
         usage()
 
@@ -67,43 +68,106 @@ def autoBackup(scrDir,dstDir):
         elif os.path.isfile(scrItem):
             if ((not os.path.exists(dstItem)) or (not filecmp.cmp(scrItem,dstItem,shallow=True))):
                 shutil.copyfile(scrItem,dstItem)
+                q.put(scrItem)
                 print('file:' + scrItem + '==>' + dstItem)
 
-def visitDir(path):
-    global totalSize
-    global fileNum
-    global dirNum
+# def visitDir(path):
+#     global totalSize
+#     global fileNum
+#     global dirNum
+#
+#     for lists in os.listdir(path):
+#         sub_path=os.path.join(path,lists)
+#         if os.path.isfile(sub_path):
+#             fileNum=fileNum+1
+#             totalSize=totalSize + os.path.getsize(sub_path)
+#         elif os.path.isdir(sub_path):
+#             dirNum=dirNum+1
+#             visitDir(sub_path)
+#
+#
+# def sizeConvert(size):
+#     K, M, G = 1024, 1024**2, 1024**3
+#     if size >= G:
+#         x = str(size/G) + 'GB'
+#     elif size >= M:
+#         x = str(size/M) + 'MB'
+#     elif size >= K:
+#         x = str(size/K) + 'KB'
+#     else:
+#         x = str(size) + 'B'
+#     return x
+#
+# def output(path):
+#     visitDir(Dpath)
+#     print('The total size of ' + path + 'is: ' + sizeConvert(totalSize) + "(" + str(totalSize) +"B)")
+#     print('The Total number of files in' + path + "is: " , fileNum)
+#     print('The Total number of directories in' + path + "is: " , dirNum)
 
-    for lists in os.listdir(path):
-        sub_path=os.path.join(path,lists)
-        if os.path.isfile(sub_path):
-            fileNum=fileNum+1
-            totalSize=totalSize + os.path.getsize(sub_path)
-        elif os.path.isdir(sub_path):
-            dirNum=dirNum+1
-            visitDir(sub_path)
+
+def main():
+    Spath=input('输入源文件夹路径：')
+    Dpath=input('输入目标文件夹路径: ')
+
+    autoBackup(Spath,Dpath)
+    po.close()
+#    output(Dpath)
 
 
-def sizeConvert(size):
-    K, M, G = 1024, 1024**2, 1024**3
-    if size >= G:
-        x = str(size/G) + 'GB'
-    elif size >= M:
-        x = str(size/M) + 'MB'
-    elif size >= K:
-        x = str(size/K) + 'KB'
-    else:
-        x = str(size) + 'B'
-    return x
+if __name__ == '__main__':
+    main()
 
-def output(path):
-    visitDir(Dpath)
-    print('The total size of ' + path + 'is: ' + sizeConvert(totalSize) + "(" + str(totalSize) +"B)")
-    print('The Total number of files in' + path + "is: " , fileNum)
-    print('The Total number of directories in' + path + "is: " , dirNum)
 
-Spath=input('输入源文件夹路径：')
-Dpath=input('输入目标文件夹路径: ')
-autoBackup(Spath,Dpath)
-output(Dpath)
 
+
+
+
+'''
+v3-多进程拷贝
+'''
+
+import os,filecmp,shutil,sys
+import multiprocessing
+
+
+def usage():
+    print('sourcedir and dstdir must be existing absolute path of certaiin directory')
+    sys.exit(0)
+
+
+def autoBackup(q,scrDir,dstDir,item):
+    scrItem = os.path.join(scrDir,item)
+    dstItem = scrItem.replace(scrDir,dstDir)
+    print(scrItem)
+    print(dstItem)
+    if os.path.isdir(scrItem):
+        if not os.path.exists(dstItem):
+            os.makedirs(dstItem)
+            print('make directory ' + dstItem)
+        autoBackup(q, scrItem, dstItem, item)
+
+    elif os.path.isfile(scrItem):
+        if (not os.path.exists(dstItem)) or (not filecmp.cmp(scrItem, dstItem, shallow=True)):
+           shutil.copyfile(scrItem,dstItem)
+           q.put(scrItem)
+           print('file:' + scrItem + '==>' + dstItem)
+
+
+def main():
+    Spath = input('输入源文件夹路径：')
+    Dpath = input('输入目标文件夹路径: ')
+
+    if (not os.path.isdir(Spath)) or (not os.path.isdir(Dpath)) or (os.path.abspath(Spath) != Spath) or (os.path.abspath(Dpath) != Dpath):
+        usage()
+
+    po = multiprocessing.Pool()
+    q = multiprocessing.Manager().Queue()    #创建队列
+    for item in os.listdir(Spath):
+        print(item)
+        po.apply_async(autoBackup, args=(q, Spath, Dpath, item))
+
+    po.close()
+
+
+if __name__ == '__main__':
+    main()
