@@ -97,3 +97,55 @@ if __name__ == '__main__':
     p.start()
     product('this is test')
     p.join()
+
+
+
+'''
+
+统计多个目录下的所有文件
+
+'''
+
+import hashlib
+import os
+import time
+from multiprocessing import Pool
+
+fpath='/var/lib/docker'
+#统计文件信息
+
+def countfiles(dir,files):
+    for file in files:
+        fpath=os.path.join(dir,file)
+        fsize=os.path.getsize(fpath)
+        f=open(fpath,'rb')
+        fbuf=f.read()
+        md5=hashlib.md5(fbuf)
+        md5val=md5.hexdigest()
+
+#遍历目录
+
+def listDir(rootdir):
+    iterdir=os.walk(rootdir)
+    for rdir,dirs,flist in iterdir:
+        #遍历所有文件
+        if flist:
+            countfiles(rdir,flist)
+
+
+if __name__ == '__main__':
+    fpath = '/var/lib/docker'
+    stime=time.time()
+    dirs=os.listdir(fpath)
+    pools=Pool(processes=3)
+    for item in dirs:
+        pdir=os.path.join(fpath,item)
+        pools.apply_async(listDir, args=(pdir,))
+    pools.close()
+    pools.join()
+    print('run time:', time.time() - stime)
+
+
+
+
+

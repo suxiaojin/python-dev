@@ -1,7 +1,7 @@
 #os模块
 '''
 目录操作 --增删改查
-    os.listdir ---获取目录下所有文件
+    os.listdir ---获取当前目录下的文件和文件夹
     os.mkdir ---创建目录
     os.remove ---删除文件
     os.rmdir ---删除目录
@@ -10,6 +10,7 @@
     os.rename ---修改文件名称
     os.makedirs ---递归创建文件夹     mkdir -p
     os.path.getsize
+    os.walk ---- 目录下有文件和文件夹的话。它只会walk文件夹    根目录  根目录下的文件夹   根目录下的文件
 
 文件操作：
 
@@ -21,8 +22,6 @@
     os.getcwd() ---获取当前路径
     os.path.join() ---路径拼接
 
-系统相关操作
-    os.walk ---遍历指定目录及子目录
 
 '''
 import os
