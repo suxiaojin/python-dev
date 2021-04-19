@@ -37,7 +37,7 @@ if __name__=='__main__':
     main()
 
 '''
-v2:实现文件夹与文件的拷贝
+v2:实现文件夹与文件的拷贝，增量备份
 '''
 import os,filecmp,shutil,sys
 import multiprocessing
@@ -51,13 +51,13 @@ def usage():
     sys.exit(0)
 
 
-def autoBackup(q,scrDir,dstDir):
+def autoBackup(scrDir,dstDir):
     if ((not os.path.isdir(scrDir)) or (not os.path.isdir(dstDir)) or (os.path.abspath(scrDir) != scrDir) or (os.path.abspath(dstDir) != dstDir)):
         usage()
 
     for item in os.listdir(scrDir):
-        scrItem=os.path.join(scrDir,item)
-        dstItem=scrItem.replace(scrDir,dstDir)
+        scrItem=os.path.join(scrDir,item)  #源文件和文件夹的绝对路径
+        dstItem=scrItem.replace(scrDir,dstDir)  #备份文件夹绝对路径
 
         if os.path.isdir(scrItem):
             if not os.path.exists(dstItem):
@@ -68,7 +68,6 @@ def autoBackup(q,scrDir,dstDir):
         elif os.path.isfile(scrItem):
             if ((not os.path.exists(dstItem)) or (not filecmp.cmp(scrItem,dstItem,shallow=True))):
                 shutil.copyfile(scrItem,dstItem)
-                q.put(scrItem)
                 print('file:' + scrItem + '==>' + dstItem)
 
 # def visitDir(path):
@@ -106,12 +105,9 @@ def autoBackup(q,scrDir,dstDir):
 
 
 def main():
-    Spath=input('输入源文件夹路径：')
-    Dpath=input('输入目标文件夹路径: ')
-
+    Spath = input('输入源文件夹路径：')
+    Dpath = input('输入目标文件夹路径: ')
     autoBackup(Spath,Dpath)
-    po.close()
-#    output(Dpath)
 
 
 if __name__ == '__main__':

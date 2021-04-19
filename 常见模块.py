@@ -44,6 +44,9 @@ p=subprocess.Popen('dir',shell=True)
 args=['ls','-l','/home/data']
 c=pexpect.spawd(''.join(args),logfile=sys.stdout)
 
+#等待输入密码
+c.expect('password')
+
 #连接断开
 c.expect(pexpect.EOF)
 
@@ -53,7 +56,7 @@ pexpect.TIMEOUT
 #发送命令不加回车
 c.send(s)
  #发送命令加回车
- c.sendline(s='')
+c.sendline(s='')
 
 
  #远程登录代码
