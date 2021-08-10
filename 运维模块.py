@@ -19,6 +19,20 @@
     cell-sheet['A1'] ---获取一个单元格
     cell.value ---获取单元格数据
 
+xlsxwriter模块
+workbook = xlsxwriter.Workbook('hello.xlsx') # 建立文件
+worksheet = workbook.add_worksheet() # 建立sheet,可以work.add_worksheet('employee')来指定sheet名，但中文名会报UnicodeDecodeErro的错误
+
+title = [u'IP地址',u'CPU使用率', u'内存总量', u'内存使用率',u'根目录大小', u'根目录使用百分比', u'home大小' \
+        , u'home使用率']
+    format = workbook1.add_format()
+    worksheet.set_column(0, 15, 20)
+    format.set_bold()
+    worksheet.write_row('A1', title, format)
+
+    -----这里的意思是A1表格填入 title,字体是format设置的出来的
+    worksheet.write(row, 0, a["ip"])   ----（第 行，第0 列）
+
 '''
 
 '''
