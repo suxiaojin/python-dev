@@ -10,7 +10,9 @@
     os.rename ---修改文件名称
     os.makedirs ---递归创建文件夹     mkdir -p
     os.path.getsize
-    os.walk ---- 目录下有文件和文件夹的话。它只会walk文件夹    根目录  根目录下的文件夹   根目录下的文件
+    os.walk ---- 目录下有文件和文件夹的话。它只会walk文件夹    根目录 （/）  根目录下的文件夹(/tmp)   根目录下的文件(/tmp/kk.py)
+                                                        /tmp        /tpm/kk               /tmp/kk/cc.log
+                结合for 显示出目录，文件夹、文件
 
 文件操作：
 
